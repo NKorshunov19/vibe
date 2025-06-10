@@ -2,7 +2,6 @@
   "name": "untitled",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,5 +10,27 @@
   "devDependencies": {
     "prettier": "^3.3.1",
     "vite": "^5.1.6"
-  }
+  },
+  "main": "index.js",
+  "dependencies": {
+    "esbuild": "^0.21.5",
+    "mysql2": "^3.14.1",
+    "nanoid": "^3.3.11",
+    "picocolors": "^1.1.1",
+    "postcss": "^8.5.4",
+    "rollup": "^4.42.0",
+    "source-map-js": "^1.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NKorshunov19/vibe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NKorshunov19/vibe/issues"
+  },
+  "homepage": "https://github.com/NKorshunov19/vibe#readme",
+  "description": ""
 }

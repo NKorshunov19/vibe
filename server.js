@@ -8,8 +8,8 @@ const PORT = 3000;
 
 const dbConfig = {
   host: 'localhost',
-  user: 'root',       // логин MySQL
-  password: 'Dara2005',       // пароль MySQL
+  user: 'root',
+  password: 'Dara2005',
   database: 'todolist',
   port: 3306
 };
@@ -39,7 +39,6 @@ async function getHtmlRows() {
 
 async function handleRequest(req, res) {
   if (req.url === '/' && req.method === 'GET') {
-    // Главная страница
     try {
       const html = await fs.promises.readFile(path.join(__dirname, 'index.html'), 'utf8');
       const processedHtml = html.replace('{{rows}}', await getHtmlRows());
@@ -51,7 +50,6 @@ async function handleRequest(req, res) {
     }
     return;
   }
-  // Обработка main.js
   if (req.url === '/main.js' && req.method === 'GET') {
     fs.readFile(path.join(__dirname, 'main.js'), (err, data) => {
       if (err) {
@@ -64,7 +62,6 @@ async function handleRequest(req, res) {
     });
     return;
   }
-  // Добавление нового дела
   if (req.url === '/add' && req.method === 'POST') {
     let body = '';
     req.on('data', chunk => body += chunk.toString());
@@ -81,7 +78,6 @@ async function handleRequest(req, res) {
     });
     return;
   }
-  // 404 для всего остального
   res.writeHead(404, { 'Content-Type': 'text/plain' });
   res.end('Route not found');
 }
