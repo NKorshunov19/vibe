@@ -27,12 +27,24 @@ async function addListItem(text) {
   await connection.end();
 }
 
+async function deleteListItem(id) {
+  const connection = await mysql.createConnection(dbConfig);
+  await connection.execute('DELETE FROM items WHERE id = ?', [id]);
+  await connection.end();
+}
+
 async function getHtmlRows() {
   const items = await retrieveListItems();
   return items.map(item => `
         <tr>
             <td>${item.id}</td>
             <td>${item.text}</td>
+            <td>
+                <form method="POST" action="/delete" style="display:inline;">
+                    <input type="hidden" name="id" value="${item.id}">
+                    <button type="submit" onclick="return confirm('Удалить задачу?')">Удалить</button>
+                </form>
+            </td>
         </tr>
     `).join('');
 }
@@ -74,6 +86,22 @@ async function handleRequest(req, res) {
       } else {
         res.writeHead(400, { 'Content-Type': 'text/plain' });
         res.end('Требуется текст');
+      }
+    });
+    return;
+  }
+  if (req.url === '/delete' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => body += chunk.toString());
+    req.on('end', async () => {
+      const { id } = parse(body);
+      if (id && !isNaN(Number(id))) {
+        await deleteListItem(Number(id));
+        res.writeHead(302, { Location: '/' });
+        res.end();
+      } else {
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end('Некорректный id');
       }
     });
     return;
